@@ -1,5 +1,10 @@
-require('dotenv').load()
+var env = process.env.NODE_ENV || 'dev'
 var path = require('path')
+
+if (env == 'dev') {
+  require('dotenv').load()
+}
+
 var express = require('express')
 var app = express()
 
