@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <title>Natalia Webapp Example</title>
+  <link rel="shortcut icon" href="/img/favicon.ico" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+  <!-- <link href='css/main.css' rel='stylesheet' type='text/css'> -->
+</html>
+<body>
+<div class="row">
+  <div class="col-xs-12 text-center">
+    <h1>Downstairs Lamp</h1>
+  </div>
+</div>
+<br />
+<br />
+<div class="row">
+  <div class="col-xs-4 text-center">
+    <button type="button" class="btn btn-default btn-success" id="on">Lamp On</button>
+  </div>
+  <div class="col-xs-4 text-center">
+    <div id="current-state">
+      <% if (isOn) { %>
+        <h2>currently on</h2>
+      <% } else { %>
+        <h2>currently off</h2>
+      <% } %>
+    </div>
+  </div>
+  <div class="col-xs-4 text-center">
+    <button type="button" class="btn btn-default btn-danger" id="off">Lamp Off</button>
+  </div>
+</div>
+<script>
+$(window).load(function() {
+  function toggleLED(state) {
+    $.ajax({
+      url: "/toggle"+"?state="+state,
+      type: 'GET',
+      success: function(res) {
+        console.log(res);
+        if (res.isOn) {var isOnString = 'currently on';}
+        else if (!res.isOn) {var isOnString = 'currently off';}
+        document.getElementById('current-state').innerHTML = isOnString;
+      }
+    })
+  }
+  $('#on').click(function() {
+    toggleLED('on')
+  })
+  $('#off').click(function() {
+    toggleLED('off')
+  });
+})
+</script>
+</body>
